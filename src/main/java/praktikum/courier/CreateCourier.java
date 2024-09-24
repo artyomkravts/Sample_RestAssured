@@ -1,3 +1,5 @@
+package praktikum.courier;
+
 public class CreateCourier { // Это POJO боди запроса на добавление курьера
 
     private String login;

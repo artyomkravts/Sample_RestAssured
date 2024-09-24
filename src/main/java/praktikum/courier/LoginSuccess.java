@@ -1,3 +1,5 @@
+package praktikum.courier;
+
 public class LoginSuccess { // Это POJO респонса успешного логина
 
     private Integer id;

@@ -1,3 +1,5 @@
+package praktikum.courier;
+
 import io.qameta.allure.Step;
 import org.junit.After;
 import org.junit.Assert;
@@ -20,8 +22,6 @@ public class CreateCourierTest {
 
     @Test
     public void createNewCourierSuccess() {
-        Boolean result = true;
-
         CreateCourier courier = new CreateCourier(testLogin, testPassword, testFirstName);
 
         Response response = createCourier(courier);
