@@ -6,11 +6,7 @@ import io.restassured.response.Response;
 
 import static io.restassured.RestAssured.given;
 
-public class CourierClient {
-
-    public static final String COURIER_PATH = "api/v1/courier/";
-    public static final String BASE_URI = "https://qa-scooter.praktikum-services.ru/";
-    public static final String COURIER_LOGIN = "api/v1/courier/login/";
+public class CourierClient { // Методы взаимодействия с курьером
 
     @Step("Create a new courier")
     public static Response createCourier(CreateCourier createCourier) {
@@ -19,7 +15,7 @@ public class CourierClient {
                 .and()
                 .body(createCourier)
                 .when()
-                .post(BASE_URI + COURIER_PATH);
+                .post(Constants.BASE_URI + Constants.COURIER_CREATE_PATH);
     }
 
     @Step("Log in a courier")
@@ -29,7 +25,7 @@ public class CourierClient {
                 .and()
                 .body(loginCourier)
                 .when()
-                .post(BASE_URI + COURIER_LOGIN)
+                .post(Constants.BASE_URI + Constants.COURIER_LOGIN_PATH)
                 .then().log().all()
                 .extract().as(LoginSuccess.class);
     }
@@ -37,6 +33,7 @@ public class CourierClient {
     @Step("Delete a courier")
     public static void deleteCourier(Integer id) {
         given()
-                .delete(BASE_URI + COURIER_PATH + id);
+                .delete(Constants.BASE_URI + Constants.COURIER_CREATE_PATH + id);
+        System.out.println("deleting courier with id: " + id);
     }
 }
