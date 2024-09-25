@@ -2,31 +2,33 @@ package praktikum.courier;
 
 import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
-import io.restassured.http.ContentType;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Test;
 import io.restassured.response.Response;
+import praktikum.courier.request.CreateCourier;
+import praktikum.courier.request.LoginCourier;
 
 import static io.restassured.RestAssured.given;
 
 public class CreateCourierTest {
 
-    String testLogin = "Aboba1234";
-    String testPassword = "1234";
-    String testFirstName = "saske";
+    private String testLogin = "Aboba1234";
+    private String testPassword = "1234";
+    private String testFirstName = "saske";
+
+    private Integer courierId;
 
     @After
     public void tearDown() {
         LoginCourier loginCourier = new LoginCourier(testLogin, testPassword);
 
-        LoginSuccess loginSuccess = CourierClient.logInCourier(loginCourier);
+        Response loginResponse = CourierClient.logInCourier(loginCourier);
 
-        Integer id = loginSuccess.getId();
+        courierId = loginResponse.path("id");
 
-        CourierClient.deleteCourier(id);
+        CourierClient.deleteCourier(courierId);
 
-        System.out.println("Courier with id " + id + " is deleted");
+        System.out.println("Courier with id " + courierId + " is deleted");
     }
 
     @Test

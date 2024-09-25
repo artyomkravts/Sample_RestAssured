@@ -1,4 +1,4 @@
-package praktikum.courier;
+package praktikum.courier.request;
 
 public class LoginCourier { // Это POJO боди запроса на логин
 
