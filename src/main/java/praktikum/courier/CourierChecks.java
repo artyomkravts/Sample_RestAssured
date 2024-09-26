@@ -8,7 +8,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.Matchers.is;
 
 public class CourierChecks { // Методы проверок курьера
-    @Step("Check that courier is created 201")
+    @Step("Check create courier is successful 201")
     public static void checkCreateCourierSuccessful(Response response) {
         response.then().log().all()
                 .statusCode(HTTP_CREATED)
@@ -16,7 +16,7 @@ public class CourierChecks { // Методы проверок курьера
                 .body("ok", is(true));
     }
 
-    @Step("Check that creating second courier failed 409")
+    @Step("Check creating second courier failed 409")
     static void checkCreateTwoCouriersFailed(Response response) {
         response.then().log().all()
                 .statusCode(HTTP_CONFLICT)
@@ -25,12 +25,39 @@ public class CourierChecks { // Методы проверок курьера
                 .body("message", equalTo("Этот логин уже используется. Попробуйте другой."));
     }
 
-    @Step("Check 400 error when field is missing")
+    @Step("Check create courier field is missing 400")
     static void checkErrorWhenFieldIsMissing(Response response) {
         response.then().log().all()
                 .statusCode(HTTP_BAD_REQUEST)
                 .and()
                 .assertThat()
                 .body("message", equalTo("Недостаточно данных для создания учетной записи"));
+    }
+
+    @Step("Check login is not found 404")
+    static void checkLoginNotFound(Response response) {
+        response.then()
+                .statusCode(HTTP_NOT_FOUND)
+                .and()
+                .assertThat()
+                .body("message", equalTo("Учетная запись не найдена"));
+    }
+
+    @Step("Check login field is missing 400")
+    static void checkLoginFieldMissing(Response response) {
+        response.then()
+                .statusCode(HTTP_BAD_REQUEST)
+                .and()
+                .assertThat()
+                .body("message", equalTo("Недостаточно данных для входа"));
+    }
+
+    @Step("Check login is successful 200")
+    static void checkLoginSuccessful(Response response) {
+        response.then().log().all()
+                .statusCode(HTTP_OK)
+                .and()
+                .extract()
+                .path("id");
     }
 }

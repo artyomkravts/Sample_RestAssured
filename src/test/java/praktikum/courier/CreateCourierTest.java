@@ -33,7 +33,7 @@ public class CreateCourierTest {
 
     @Test
     @DisplayName("Create new courier successful")
-    @Description("201 and \"ok\": true")
+    @Description("Positive test checks 201 and \"ok\": true")
     public void createNewCourierSuccess() {
         CreateCourier courier = new CreateCourier(testLogin, testPassword, testFirstName);
 
@@ -44,7 +44,7 @@ public class CreateCourierTest {
 
     @Test
     @DisplayName("Create 2 couriers failed")
-    @Description("409 and \"message\": \"Этот логин уже используется. Попробуйте другой.\"")
+    @Description("Negative test checks 409 and \"message\": \"Этот логин уже используется. Попробуйте другой.\"")
     public void createTwoSameCouriersFailed() {
         CreateCourier courier = new CreateCourier(testLogin, testPassword, testFirstName);
 
@@ -56,7 +56,9 @@ public class CreateCourierTest {
     }
 
     @Test
-    public void createNewCourierWithMissingFieldFailed() { // какая-то ошибка
+    @DisplayName("Create new courier with missing field failed")
+    @Description("Negative test checks 400 and \"message\": \"Недостаточно данных для создания учетной записи\"")
+    public void createNewCourierWithMissingFieldFailed() { // бага -- можно создать курьера без имени
         CreateCourier[] couriers = {
                 new CreateCourier("", testPassword, testFirstName),
                 new CreateCourier(testLogin, "", testFirstName),

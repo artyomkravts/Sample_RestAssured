@@ -11,7 +11,7 @@ import static io.restassured.RestAssured.given;
 
 public class CourierClient { // Методы взаимодействия с курьером
 
-    @Step("Create a new courier")
+    @Step("Create new courier")
     public static Response createCourier(CreateCourier createCourier) {
         return given().log().all()
                 .contentType(ContentType.JSON)
@@ -21,7 +21,7 @@ public class CourierClient { // Методы взаимодействия с к�
                 .post(Constants.BASE_URI + Constants.COURIER_CREATE_PATH);
     }
 
-    @Step("Log in a courier")
+    @Step("Log in courier")
     public static Response logInCourier(LoginCourier loginCourier) {
         return given()
                 .contentType(ContentType.JSON)
@@ -31,12 +31,15 @@ public class CourierClient { // Методы взаимодействия с к�
                 .post(Constants.BASE_URI + Constants.COURIER_LOGIN_PATH);
     }
 
-    @Step("Delete a courier")
+    @Step("Delete courier")
     public static void deleteCourier(Integer id) {
         given()
                 .delete(Constants.BASE_URI + Constants.COURIER_CREATE_PATH + id);
         System.out.println("deleting courier with id: " + id);
     }
+
+
+
 
     public static CreateCourier getRandomCourier() {
         String testLogin = "TestGuy" + RandomStringUtils.randomAlphanumeric(15);
@@ -44,5 +47,12 @@ public class CourierClient { // Методы взаимодействия с к�
         String testFirstName = RandomStringUtils.randomAlphabetic(10);
 
         return new CreateCourier(testLogin, testPassword, testFirstName);
+    }
+
+    public static LoginCourier getRandomCourierLogPass() {
+        String testLogin = "TestGuy" + RandomStringUtils.randomAlphanumeric(15);
+        String testPassword = RandomStringUtils.randomNumeric(5);
+
+        return new LoginCourier(testLogin, testPassword);
     }
 }
