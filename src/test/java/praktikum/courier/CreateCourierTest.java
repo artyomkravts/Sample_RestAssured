@@ -8,8 +8,6 @@ import io.restassured.response.Response;
 import praktikum.courier.request.CreateCourier;
 import praktikum.courier.request.LoginCourier;
 
-import static io.restassured.RestAssured.given;
-
 public class CreateCourierTest {
 
     private String testLogin = "Aboba1234";

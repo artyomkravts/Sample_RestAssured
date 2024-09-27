@@ -60,4 +60,21 @@ public class CourierChecks { // Методы проверок курьера
                 .extract()
                 .path("id");
     }
+    @Step("Check order is created successfully 201")
+    static void checkOrderCreatedSuccessful(Response response) {
+        response.then().log().all()
+                .statusCode(HTTP_CREATED)
+                .and()
+                .extract()
+                .path("track");
+    }
+
+    @Step("Check get orders handle returns list of orders 200")
+    public static void checkGetOrdersReturnsListOfOrders(Response response) {
+        response.then().log().all()
+                .statusCode(HTTP_OK)
+                .and()
+                .extract()
+                .path("orders");
+    }
 }

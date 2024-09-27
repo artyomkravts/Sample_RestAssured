@@ -39,6 +39,19 @@ public class DataGenerator {
         return new CreateOrder(firstName, lastName, address, metroStation, phone, rentTime, deliveryDate, comment);
     }
 
+    public static CreateOrder getRandomOrderWithFirstName(String firstNameInput) {
+        String firstName = firstNameInput;
+        String lastName = RandomStringUtils.randomAlphabetic(10);
+        String address = RandomStringUtils.randomAlphanumeric(20);
+        String metroStation = getRandomMetro(); // Вообще согласно доке должен быть String, но так тоже работает
+        String phone = "+7" + RandomStringUtils.randomNumeric(10);
+        Integer rentTime = Integer.parseInt(RandomStringUtils.randomNumeric(1));
+        String deliveryDate = getFutureDate();
+        String comment = RandomStringUtils.randomAlphabetic(10);
+
+        return new CreateOrder(firstName, lastName, address, metroStation, phone, rentTime, deliveryDate, comment);
+    }
+
     private static String getFutureDate() {
         LocalDate currentDate = LocalDate.now();
 
