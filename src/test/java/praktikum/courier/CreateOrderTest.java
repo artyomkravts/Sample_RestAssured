@@ -38,7 +38,7 @@ public class CreateOrderTest {
 
     @Test
     public void createOrderSuccessful() {
-        CreateOrder order = DataGenerator.getRandomOrder();
+        order.setColor(color);
 
         Response response = RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
