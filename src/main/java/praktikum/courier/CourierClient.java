@@ -3,7 +3,6 @@ package praktikum.courier;
 import io.qameta.allure.Step;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
-import org.apache.commons.lang3.RandomStringUtils;
 import praktikum.courier.request.CreateCourier;
 import praktikum.courier.request.LoginCourier;
 
@@ -39,20 +38,4 @@ public class CourierClient { // Методы взаимодействия с к�
     }
 
 
-
-
-    public static CreateCourier getRandomCourier() {
-        String testLogin = "TestGuy" + RandomStringUtils.randomAlphanumeric(15);
-        String testPassword = RandomStringUtils.randomNumeric(5);
-        String testFirstName = RandomStringUtils.randomAlphabetic(10);
-
-        return new CreateCourier(testLogin, testPassword, testFirstName);
-    }
-
-    public static LoginCourier getRandomCourierLogPass() {
-        String testLogin = "TestGuy" + RandomStringUtils.randomAlphanumeric(15);
-        String testPassword = RandomStringUtils.randomNumeric(5);
-
-        return new LoginCourier(testLogin, testPassword);
-    }
 }

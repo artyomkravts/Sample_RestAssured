@@ -23,7 +23,7 @@ public class LoginCourierTest {
 
     @Before
     public void setUp() {
-        CreateCourier newCourier = CourierClient.getRandomCourier();
+        CreateCourier newCourier = DataGenerator.getRandomCourier();
 
         testLogin = newCourier.getLogin();
         testPassword = newCourier.getPassword();
@@ -78,7 +78,7 @@ public class LoginCourierTest {
     @DisplayName("Login non-existing courier")
     @Description("Negative test checks 404 and \"message\": \"Учетная запись не найдена\"")
     public void loginNonExistingCourier() {
-        Response response = CourierClient.logInCourier(CourierClient.getRandomCourierLogPass());
+        Response response = CourierClient.logInCourier(DataGenerator.getRandomCourierLogPass());
 
         CourierChecks.checkLoginNotFound(response);
     }
