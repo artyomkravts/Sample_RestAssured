@@ -24,7 +24,7 @@ public class CourierClient { // Методы взаимодействия с к�
 
     @Step("Log in courier")
     public static Response logInCourier(LoginCourier loginCourier) {
-        return given()
+        return given().log().all()
                 .contentType(ContentType.JSON)
                 .and()
                 .body(loginCourier)
@@ -33,15 +33,20 @@ public class CourierClient { // Методы взаимодействия с к�
     }
 
     @Step("Delete courier")
-    public static void deleteCourier(Integer id) {
-        given()
+    public static Response deleteCourier(Integer id) {
+        return given().log().all()
                 .delete(Constants.BASE_URI + Constants.COURIER_CREATE_PATH + id);
-        System.out.println("deleting courier with id: " + id);
+    }
+
+    @Step("Delete courier without Id")
+    public static Response deleteCourier() {
+        return given().log().all()
+                .delete(Constants.BASE_URI + Constants.COURIER_CREATE_PATH);
     }
 
     @Step("Create order")
     static Response createOrder(CreateOrder createOrder) {
-        return RestAssured.given().log().all()
+        return given().log().all()
                 .contentType(ContentType.JSON)
                 .and()
                 .body(createOrder)
@@ -50,9 +55,8 @@ public class CourierClient { // Методы взаимодействия с к�
     }
 
     @Step("Get courier id")
-    public static Integer getCourierId(LoginCourier courierLogPass) {
-        return logInCourier(courierLogPass)
-                .then().log().all()
+    public static Integer getCourierId(Response response) {
+        return response.then().log().all()
                 .extract()
                 .path("id");
     }

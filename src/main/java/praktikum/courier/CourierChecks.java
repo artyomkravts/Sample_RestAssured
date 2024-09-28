@@ -2,6 +2,7 @@ package praktikum.courier;
 
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
+import org.hamcrest.Matchers;
 
 import static java.net.HttpURLConnection.*;
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -76,5 +77,19 @@ public class CourierChecks { // Методы проверок курьера
                 .and()
                 .extract()
                 .path("orders");
+    }
+
+    @Step("Check 404 Not Found")
+    static void check404NotFound(Response response) {
+        response.then().log().all()
+                .statusCode(HTTP_NOT_FOUND);
+    }
+
+    @Step("Check Deletion Successful")
+    static void checkDeletionSuccessful(Response response) {
+        response.then().log().all()
+                .statusCode(HTTP_OK)
+                .and()
+                .body("ok", Matchers.equalTo(true));
     }
 }
