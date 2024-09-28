@@ -85,11 +85,17 @@ public class CourierChecks { // Методы проверок курьера
                 .statusCode(HTTP_NOT_FOUND);
     }
 
-    @Step("Check Deletion Successful")
-    static void checkDeletionSuccessful(Response response) {
+    @Step("Check 200 and \"ok\": \"true\"")
+    static void check200AndOkTrue(Response response) {
         response.then().log().all()
                 .statusCode(HTTP_OK)
                 .and()
                 .body("ok", Matchers.equalTo(true));
+    }
+
+    @Step("Check 400 Bad Request")
+    static void check400BadRequest(Response response) {
+        response.then().log().all()
+                .statusCode(HTTP_BAD_REQUEST);
     }
 }

@@ -36,7 +36,7 @@ public class DeleteCourierTest {
     public void deleteCourierSuccessful() {
         Response response = CourierClient.deleteCourier(courierId);
 
-        CourierChecks.checkDeletionSuccessful(response);
+        CourierChecks.check200AndOkTrue(response);
     }
 
     @Test

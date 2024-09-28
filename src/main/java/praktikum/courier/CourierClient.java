@@ -54,6 +54,13 @@ public class CourierClient { // Методы взаимодействия с к�
                 .post(Constants.BASE_URI + Constants.ORDER_PATH);
     }
 
+    @Step("Get orders")
+    public static Response getOrders(Integer courierId) {
+        return RestAssured.given().log().all()
+                .queryParam("courierId", courierId)
+                .get(Constants.BASE_URI + Constants.ORDER_PATH);
+    }
+
     @Step("Get courier id")
     public static Integer getCourierId(Response response) {
         return response.then().log().all()
@@ -61,10 +68,11 @@ public class CourierClient { // Методы взаимодействия с к�
                 .path("id");
     }
 
-    @Step("Get orders")
-    public static Response getOrders(Integer courierId) {
-        return RestAssured.given().log().all()
-                .contentType(ContentType.JSON)
-                .get(Constants.BASE_URI + Constants.ORDER_PATH + Constants.COURIER_ID_PARAMETER + courierId);
+    @Step("Get order id")
+    public static Integer getOrderId(Response response1) {
+        return response1.then().log().all()
+                .extract()
+                .path("track");
     }
+
 }
