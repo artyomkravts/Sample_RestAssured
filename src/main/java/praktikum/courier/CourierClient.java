@@ -8,7 +8,10 @@ import praktikum.courier.request.CreateCourier;
 import praktikum.courier.request.CreateOrder;
 import praktikum.courier.request.LoginCourier;
 
+import java.util.Random;
+
 import static io.restassured.RestAssured.given;
+import static praktikum.courier.Constants.*;
 
 public class CourierClient { // Методы взаимодействия с курьером
 
@@ -19,7 +22,7 @@ public class CourierClient { // Методы взаимодействия с к�
                 .and()
                 .body(createCourier)
                 .when()
-                .post(Constants.BASE_URI + Constants.COURIER_CREATE_PATH);
+                .post(BASE_URI + COURIER_CREATE_PATH);
     }
 
     @Step("Log in courier")
@@ -29,19 +32,19 @@ public class CourierClient { // Методы взаимодействия с к�
                 .and()
                 .body(loginCourier)
                 .when()
-                .post(Constants.BASE_URI + Constants.COURIER_LOGIN_PATH);
+                .post(BASE_URI + COURIER_LOGIN_PATH);
     }
 
     @Step("Delete courier")
     public static Response deleteCourier(Integer id) {
         return given().log().all()
-                .delete(Constants.BASE_URI + Constants.COURIER_CREATE_PATH + id);
+                .delete(BASE_URI + COURIER_CREATE_PATH + id);
     }
 
     @Step("Delete courier without Id")
     public static Response deleteCourier() {
         return given().log().all()
-                .delete(Constants.BASE_URI + Constants.COURIER_CREATE_PATH);
+                .delete(BASE_URI + COURIER_CREATE_PATH);
     }
 
     @Step("Create order")
@@ -51,14 +54,14 @@ public class CourierClient { // Методы взаимодействия с к�
                 .and()
                 .body(createOrder)
                 .when()
-                .post(Constants.BASE_URI + Constants.ORDER_PATH);
+                .post(BASE_URI + ORDER_PATH);
     }
 
     @Step("Get orders")
     public static Response getOrders(Integer courierId) {
         return RestAssured.given().log().all()
                 .queryParam("courierId", courierId)
-                .get(Constants.BASE_URI + Constants.ORDER_PATH);
+                .get(BASE_URI + ORDER_PATH);
     }
 
     @Step("Get courier id")
@@ -69,10 +72,61 @@ public class CourierClient { // Методы взаимодействия с к�
     }
 
     @Step("Get order id")
-    public static Integer getOrderId(Response response1) {
-        return response1.then().log().all()
+    public static Integer getOrderId(Response response) {
+        return response.then().log().all()
                 .extract()
                 .path("track");
     }
 
+    @Step("Get order by track number (order id)")
+    public static Response getOrderbyTrackNum(Integer orderId) {
+         return given().log().all()
+                .queryParam(TRACK_PARAMETER, orderId)
+                .get(BASE_URI + ORDER_BY_TRACK_PATH);
+    }
+
+    @Step("Get order by track number (order id) -- without track number")
+    public static Response getOrderbyTrackNum() {
+        return given().log().all()
+                .queryParam(TRACK_PARAMETER)
+                .get(BASE_URI + ORDER_BY_TRACK_PATH);
+    }
+
+    @Step("Accept order without courier id")
+    public static Response acceptOrderWithoutCourierId(Integer orderId) {
+        return given().log().all()
+                .queryParam(ID, orderId)
+                .put(BASE_URI + ACCEPT_ORDER_PATH);
+    }
+
+    @Step("Accept order with unexistingCourierId")
+    public static Response acceptOrderWithUnexistingCourierId(Random random, Integer orderId) {
+        return given().log().all()
+                .queryParam(ID, orderId)
+                .queryParam(COURIER_ID_PARAMETER, random.nextInt(900_000_000))
+                .put(BASE_URI + ACCEPT_ORDER_PATH);
+    }
+
+    @Step("Accept order without order id")
+    public  static Response acceptOrderWithoutOrderId(Integer courierId) {
+        return given().log().all()
+                .queryParam(COURIER_ID_PARAMETER, courierId)
+                .put(BASE_URI + ACCEPT_ORDER_PATH);
+    }
+
+    @Step("Accept order with unexisting order id")
+    public static Response acceptOrderWithUnexistingOrderId(Random random, Integer courierId) {
+        return given().log().all()
+                .queryParam(ID, random.nextInt(900_000_000))
+                .queryParam(COURIER_ID_PARAMETER, courierId)
+                .put(BASE_URI + ACCEPT_ORDER_PATH);
+    }
+
+    @Step("Accept order")
+    public static Response acceptOrder(Integer orderId, Integer courierId) {
+        return given().log().all()
+                .queryParam(ID, orderId)
+                .queryParam(COURIER_ID_PARAMETER, courierId)
+                .put(BASE_URI + ACCEPT_ORDER_PATH);
+    }
 }

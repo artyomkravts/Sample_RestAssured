@@ -98,4 +98,13 @@ public class CourierChecks { // Методы проверок курьера
         response.then().log().all()
                 .statusCode(HTTP_BAD_REQUEST);
     }
+
+    @Step("Check 200 and returns \"order\"")
+    static void check200AndReturnsOrder(Response response) {
+        response.then()
+                .statusCode(HTTP_OK)
+                .and()
+                .extract()
+                .path("order");
+    }
 }

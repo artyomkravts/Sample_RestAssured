@@ -2,7 +2,6 @@ package praktikum.courier;
 
 import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
-import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.junit.After;
 import org.junit.Before;
@@ -42,46 +41,41 @@ public class AcceptOrderTest {
     @DisplayName("Accept order successful")
     @Description("Positive test checks 200 and \"ok\": true")
     public void acceptOrderSuccessful() {
-        Response response = RestAssured.given().log().all()
-                .queryParam(Constants.ID, orderId)
-                .queryParam(Constants.COURIER_ID_PARAMETER, courierId)
-                .put(Constants.BASE_URI + Constants.ACCEPT_ORDER_PATH);
+        Response response = CourierClient.acceptOrder(orderId, courierId);
         CourierChecks.check200AndOkTrue(response);
     }
 
     @Test
+    @DisplayName("Accept order without courier id failed")
+    @Description("Negative test checks 400")
     public void acceptOrderWithoutCourierIdFailed() {
-        Response response = RestAssured.given().log().all()
-                .queryParam(Constants.ID, orderId)
-                .put(Constants.BASE_URI + Constants.ACCEPT_ORDER_PATH);
+        Response response = CourierClient.acceptOrderWithoutCourierId(orderId);
         CourierChecks.check400BadRequest(response);
     }
 
     @Test
+    @DisplayName("Accept order with unexisting courier id failed")
+    @Description("Negative test checks 404")
     public void acceptOrderWithUnexistingCourierIdFailed() {
         Random random = new Random();
-        Response response = RestAssured.given().log().all()
-                .queryParam(Constants.ID, orderId)
-                .queryParam(Constants.COURIER_ID_PARAMETER, random.nextInt(900_000_000))
-                .put(Constants.BASE_URI + Constants.ACCEPT_ORDER_PATH);
+        Response response = CourierClient.acceptOrderWithUnexistingCourierId(random, orderId);
         CourierChecks.check404NotFound(response);
     }
 
     @Test
+    @DisplayName("Accept order without order id failed")
+    @Description("Negative test checks 400")
     public void acceptOrderWithoutOrderIdFailed() {
-        Response response = RestAssured.given().log().all()
-                .queryParam(Constants.COURIER_ID_PARAMETER, courierId)
-                .put(Constants.BASE_URI + Constants.ACCEPT_ORDER_PATH);
+        Response response = CourierClient.acceptOrderWithoutOrderId(courierId);
         CourierChecks.check400BadRequest(response);
     }
 
     @Test
+    @DisplayName("Accept order with unexisting order id failed")
+    @Description("Negative test checks 404")
     public void acceptOrderWithUnexistingOrderIdFailed() {
         Random random = new Random();
-        Response response = RestAssured.given().log().all()
-                .queryParam(Constants.ID, random.nextInt(900_000_000))
-                .queryParam(Constants.COURIER_ID_PARAMETER, courierId)
-                .put(Constants.BASE_URI + Constants.ACCEPT_ORDER_PATH);
+        Response response = CourierClient.acceptOrderWithUnexistingOrderId(random, courierId);
         CourierChecks.check404NotFound(response);
     }
 
