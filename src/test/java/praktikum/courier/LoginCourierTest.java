@@ -17,7 +17,6 @@ public class LoginCourierTest {
 
     private String testLogin;
     private String testPassword;
-    private String testFirstName;
 
     private Integer courierId;
 
@@ -27,7 +26,6 @@ public class LoginCourierTest {
 
         testLogin = newCourier.getLogin();
         testPassword = newCourier.getPassword();
-        testFirstName = newCourier.getFirstName();
 
         CourierClient.createCourier(newCourier);
     }

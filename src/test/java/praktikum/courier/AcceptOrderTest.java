@@ -17,7 +17,7 @@ public class AcceptOrderTest {
     private Integer orderId;
 
     @Before
-    public void setUp() { // Создать курьера - залогинить курьера - достать его id - создать заказ - достать id заказа
+    public void setUp() { // Создать курьера - залогинить курьера - достать его id - создать заказ на имя курьера - достать id заказа
         CreateCourier courier = DataGenerator.getRandomCourier();
         CourierClient.createCourier(courier);
 

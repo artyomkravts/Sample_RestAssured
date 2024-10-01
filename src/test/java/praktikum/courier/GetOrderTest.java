@@ -21,9 +21,6 @@ public class GetOrderTest {
         LoginCourier courierLogPass = new LoginCourier(courier.getLogin(), courier.getPassword()); // залогинить курьера и достать его id
         Response response = CourierClient.logInCourier(courierLogPass);
         courierId = CourierClient.getCourierId(response);
-
-//        CreateOrder order = DataGenerator.getRandomOrderWithFirstName(courier.getFirstName()); // создать заказ этому курьеру
-//        CourierClient.createOrder(order);                                                      // сейчас неактуально -- заказы не добавляются
     }
 
     @After
