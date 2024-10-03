@@ -14,22 +14,27 @@ import java.util.Random;
 
 public class AcceptOrderTest {
     private Integer courierId;
+    private Integer trackNum;
     private Integer orderId;
 
     @Before
-    public void setUp() { // Создать курьера - залогинить курьера - достать его id - создать заказ на имя курьера - достать id заказа
-        CreateCourier courier = DataGenerator.getRandomCourier();
+    public void setUp() { // Создать курьера - залогинить курьера - достать его id - создать заказ на имя курьера - достать track заказа - достать id заказа
+        CreateCourier courier = DataGenerator.getRandomCourier(); // Создать курьера
         CourierClient.createCourier(courier);
 
-        LoginCourier loginCourier = new LoginCourier(courier.getLogin(), courier.getPassword());
+        LoginCourier loginCourier = new LoginCourier(courier.getLogin(), courier.getPassword()); // залогинить курьера
         Response response = CourierClient.logInCourier(loginCourier);
 
-        courierId = CourierClient.getCourierId(response);
+        courierId = CourierClient.getCourierId(response); // достать его id
 
-        CreateOrder order = DataGenerator.getRandomOrderWithFirstName(courier.getFirstName());
+        CreateOrder order = DataGenerator.getRandomOrderWithFirstName(courier.getFirstName()); // создать заказ на имя курьера
         Response response1 = CourierClient.createOrder(order);
 
-        orderId = CourierClient.getOrderId(response1);
+        trackNum = CourierClient.getTrackNum(response1); // достать track заказа
+
+        Response response2 = CourierClient.getOrderbyTrackNum(trackNum);
+
+        orderId = CourierClient.getOrderId(response2); // достать id заказа
     }
 
     @After

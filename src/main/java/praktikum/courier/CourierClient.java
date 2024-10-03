@@ -1,7 +1,6 @@
 package praktikum.courier;
 
 import io.qameta.allure.Step;
-import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import praktikum.courier.request.CreateCourier;
@@ -71,21 +70,28 @@ public class CourierClient { // Методы взаимодействия с к�
                 .path("id");
     }
 
-    @Step("Get order id")
-    public static Integer getOrderId(Response response) {
+    @Step("Get order track number")
+    public static Integer getTrackNum(Response response) {
         return response.then().log().all()
                 .extract()
                 .path("track");
     }
 
-    @Step("Get order by track number (order id)")
-    public static Response getOrderbyTrackNum(Integer orderId) {
+    @Step("Get order id")
+    public static Integer getOrderId(Response response) {
+        return response.then().log().all()
+                .extract()
+                .path("order.id");
+    }
+
+    @Step("Get order by track number")
+    public static Response getOrderbyTrackNum(Integer trackNum) {
          return given().log().all()
-                .queryParam(TRACK_PARAMETER, orderId)
+                .queryParam(TRACK_PARAMETER, trackNum)
                 .get(BASE_URI + ORDER_BY_TRACK_PATH);
     }
 
-    @Step("Get order by track number (order id) -- without track number")
+    @Step("Get order by track number -- without track number")
     public static Response getOrderbyTrackNum() {
         return given().log().all()
                 .queryParam(TRACK_PARAMETER)

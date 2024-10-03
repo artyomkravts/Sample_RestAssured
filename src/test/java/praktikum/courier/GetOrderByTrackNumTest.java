@@ -18,7 +18,7 @@ public class GetOrderByTrackNumTest {
         CreateOrder order = DataGenerator.getRandomOrder();
         Response response = CourierClient.createOrder(order);
 
-        trackNum = CourierClient.getOrderId(response);
+        trackNum = CourierClient.getTrackNum(response);
 
         Response response1 = CourierClient.getOrderbyTrackNum(trackNum);
 
