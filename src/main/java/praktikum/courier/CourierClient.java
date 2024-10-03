@@ -59,7 +59,7 @@ public class CourierClient { // Методы взаимодействия с к�
 
     @Step("Get orders")
     public static Response getOrders(Integer courierId) {
-        return RestAssured.given().log().all()
+        return given().log().all()
                 .queryParam("courierId", courierId)
                 .get(BASE_URI + ORDER_PATH);
     }
@@ -95,16 +95,14 @@ public class CourierClient { // Методы взаимодействия с к�
     @Step("Accept order without courier id")
     public static Response acceptOrderWithoutCourierId(Integer orderId) {
         return given().log().all()
-                .queryParam(ID, orderId)
-                .put(BASE_URI + ACCEPT_ORDER_PATH);
+                .put(BASE_URI + ACCEPT_ORDER_PATH + orderId);
     }
 
     @Step("Accept order with unexistingCourierId")
     public static Response acceptOrderWithUnexistingCourierId(Random random, Integer orderId) {
         return given().log().all()
-                .queryParam(ID, orderId)
                 .queryParam(COURIER_ID_PARAMETER, random.nextInt(900_000_000))
-                .put(BASE_URI + ACCEPT_ORDER_PATH);
+                .put(BASE_URI + ACCEPT_ORDER_PATH + orderId);
     }
 
     @Step("Accept order without order id")
@@ -116,17 +114,16 @@ public class CourierClient { // Методы взаимодействия с к�
 
     @Step("Accept order with unexisting order id")
     public static Response acceptOrderWithUnexistingOrderId(Random random, Integer courierId) {
+        var unexistingOrderId = random.nextInt(900_000_000);
         return given().log().all()
-                .queryParam(ID, random.nextInt(900_000_000))
                 .queryParam(COURIER_ID_PARAMETER, courierId)
-                .put(BASE_URI + ACCEPT_ORDER_PATH);
+                .put(BASE_URI + ACCEPT_ORDER_PATH + unexistingOrderId);
     }
 
     @Step("Accept order")
     public static Response acceptOrder(Integer orderId, Integer courierId) {
         return given().log().all()
-                .queryParam(ID, orderId)
                 .queryParam(COURIER_ID_PARAMETER, courierId)
-                .put(BASE_URI + ACCEPT_ORDER_PATH);
+                .put(BASE_URI + ACCEPT_ORDER_PATH + orderId);
     }
 }
